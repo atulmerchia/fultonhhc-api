@@ -1,0 +1,17 @@
+{
+  "name": "FultonHHC-API",
+  "version": "1.0.0",
+  "description": "Backend for FultonHHC",
+  "main": "server.js",
+  "author": "Atul Merchia",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "firebase": "^7.2.3"
+  }
+}
