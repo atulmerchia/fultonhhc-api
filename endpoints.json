@@ -1,0 +1,14 @@
+{
+  "/social": {
+    "get": {
+      "db_ref": "social_media",
+      "err_message": "Couldn't fetch social media information"
+    }
+  },
+  "/community": {
+    "get": {
+      "db_ref": "community",
+      "err_message": "Error connecting to database"
+    }
+  }
+}

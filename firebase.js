@@ -3,6 +3,8 @@ const firebaseConfig = process.env.IS_LOCAL
   ? require(`./config/firebase-${process.env.DB_MODE}.json`)
   : FIREBASE_KEYS.reduce((acc, key) => Object.assign(acc, { [key]: process.env[key] }), {});
 
-const Firebase = require('firebase').initializeApp(firebaseConfig);
+const FirebaseApp = require('firebase').initializeApp(firebaseConfig);
 
-module.exports = Firebase;
+module.exports = {
+  get: async child => (await FirebaseApp.database().ref(child).once('value')).val()
+}
