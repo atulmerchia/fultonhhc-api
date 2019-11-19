@@ -1,12 +1,10 @@
-// const FIREBASE_KEYS = ["apiKey", "authDomain", "databaseURL", "projectId", "storageBucket", "messagingSenderId", "appId"];
-// const firebaseConfig = process.env.IS_LOCAL
-//   ? require(`./config/firebase-${process.env.DB_MODE}.json`)
-//   : FIREBASE_KEYS.reduce((acc, key) => Object.assign(acc, { [key]: process.env[key] }), {});
+const STD_CONFIG = process.env.IS_LOCAL ? require(`./config/firebase-${process.env.DB_MODE}.json`) : JSON.parse(process.env.FIREBASE_CONFIG)
+const STD_CONFIG = process.env.IS_LOCAL ? require(`./config/firebase-${process.env.DB_MODE}-admin.json`) : JSON.parse(process.env.FIREBASE_ADMIN_CONFIG)
 
-const firebaseConfig = JSON.parse(process.env.FIREBASE_CONFIG)
+const FirebaseApp = require('firebase-admin');
+const uuid = require('uuid/v4');
 
-const FirebaseApp = require('firebase').initializeApp(firebaseConfig);
-const uuid = require('uuid/v4')
+FirebaseApp.initializeApp({ ...STD_CONFIG, credential: FirebaseApp.credential.cert(ADM_CONFIG) });
 
 module.exports = {
   get: async ({ db_ref }) => (await FirebaseApp.database().ref(db_ref).once('value')).val(),
