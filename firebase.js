@@ -1,5 +1,5 @@
 const STD_CONFIG = process.env.IS_LOCAL ? require(`./config/firebase-${process.env.DB_MODE}.json`) : JSON.parse(process.env.FIREBASE_CONFIG)
-const STD_CONFIG = process.env.IS_LOCAL ? require(`./config/firebase-${process.env.DB_MODE}-admin.json`) : JSON.parse(process.env.FIREBASE_ADMIN_CONFIG)
+const ADM_CONFIG = process.env.IS_LOCAL ? require(`./config/firebase-${process.env.DB_MODE}-admin.json`) : JSON.parse(process.env.FIREBASE_ADMIN_CONFIG)
 
 const FirebaseApp = require('firebase-admin');
 const uuid = require('uuid/v4');
