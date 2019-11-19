@@ -13,6 +13,13 @@
       "err_message": "Couldn't get calendar data"
     }
   },
+  "/home": {
+    "get": {
+      "library": "Firebase",
+      "options": { "db_ref": "home" },
+      "err_message": "Error connecting to database"
+    }
+  },
   "/impact": {
     "get": {
       "library": "Firebase",
