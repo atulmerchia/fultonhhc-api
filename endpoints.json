@@ -1,14 +1,61 @@
 {
+  "/about": {
+    "get": {
+      "library": "Firebase",
+      "options": { "db_ref": "org_info" },
+      "err_message": "Error connecting to database"
+    }
+  },
+  "/events": {
+    "get": {
+      "library": "Calendar",
+      "options": { "db_ref": "calendar_id" },
+      "err_message": "Couldn't get calendar data"
+    }
+  },
+  "/impact": {
+    "get": {
+      "library": "Firebase",
+      "options": { "db_ref": "impact" },
+      "err_message": "Error connecting to database"
+    }
+  },
+  "/inventory": {
+    "get": {
+      "library": "Firebase",
+      "options": { "db_ref": "inventory" },
+      "err_message": "Error connecting to database"
+    }
+  },
+  "/message": {
+    "post": {
+      "library": "Mailer",
+      "options": {
+        "db_ref": "org_info/contact_info/email",
+        "email_template": "message"
+      },
+      "err_message": "Couldn't send message"
+    }
+  },
   "/social": {
     "get": {
-      "db_ref": "social_media",
+      "library": "Firebase",
+      "options": { "db_ref": "social_media" },
       "err_message": "Couldn't fetch social media information"
     }
   },
-  "/community": {
-    "get": {
-      "db_ref": "community",
-      "err_message": "Error connecting to database"
+  "/order": {
+    "post": {
+      "library": "Stripe",
+      "options": {
+        "inventory": { "db_ref": "inventory" },
+        "order": { "db_ref": "orders" },
+        "email": {
+          "db_ref": "purchase_order_email",
+          "email_template": "purchaseConfirmation"
+        }
+      },
+      "err_message": "Unable to generate transaction data. Please do not attempt to reorder, instead contact us directly."
     }
   }
 }
