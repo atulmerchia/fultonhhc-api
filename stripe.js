@@ -62,7 +62,7 @@ module.exports = {
         phone: `${body.phone}`.replace(/(\d{3})(\d{3})(\d{4})/, "($1) $2-$3"),
         card: body.token.card.last4,
         shipping_address: `${body.shipping_address.address_line1}, ${body.shipping_address.address_line2 ? body.shipping_address.address_line2 + ", " : ""}${body.shipping_address.city}, ${body.shipping_address.state} ${body.billing_address.zip}`,
-        billing_address: `${body.billing_address.address_line1}, ${body.billing_address.address_line2 ? body.billing_address.address_line2 + ", " : ""}${body.billing_address.city}, ${body.shipping_address.state} ${body.billing_address.zip}`,
+        billing_address: `${body.billing_address.address_line1}, ${body.billing_address.address_line2 ? body.billing_address.address_line2 + ", " : ""}${body.billing_address.city}, ${body.shipping_address.state} ${body.shipping_address.zip}`,
         confirmation: confirmation,
         total: `$${Number(total/100).toFixed(2)}`,
         body: email_content

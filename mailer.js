@@ -1,5 +1,5 @@
 const Firebase = require('./firebase');
-const _sendmail = require('sendmail')({ silent: false });
+const _sendmail = require('sendmail')({ silent: true });
 
 const sendmail = (target, { email_template }, params) => new Promise((res, rej) => _sendmail({
   from: 'no-reply@fulton-hhc.com',
