@@ -40,6 +40,7 @@ module.exports = {
       order: order,
       confirmation: confirmation,
       fulfilled: false,
+      createdAt: Date.now(),
       payment: {
         amount: total,
         last4: card.last4,

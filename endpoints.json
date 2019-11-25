@@ -6,10 +6,18 @@
       "err_message": "Error connecting to database"
     }
   },
+  "/contact": {
+    "get": {
+      "secure": true,
+      "library": "Firebase",
+      "options": { "db_ref": "org_info/contact_info" },
+      "err_message": "Couldn't connect to database"
+    }
+  },
   "/events": {
     "get": {
       "library": "Calendar",
-      "options": { "db_ref": "calendar_id" },
+      "options": { "db_ref": "meta/calendar_id" },
       "err_message": "Couldn't get calendar data"
     }
   },
@@ -34,6 +42,14 @@
       "err_message": "Error connecting to database"
     }
   },
+  "/meta": {
+    "get": {
+      "secure": true,
+      "library": "Firebase",
+      "options": { "db_ref": "meta" },
+      "err_message": "Couldn't connect to database"
+    }
+  },
   "/message": {
     "post": {
       "library": "Mailer",
@@ -47,18 +63,24 @@
   "/social": {
     "get": {
       "library": "Firebase",
-      "options": { "db_ref": "social_media" },
+      "options": { "db_ref": "meta/social_media" },
       "err_message": "Couldn't fetch social media information"
     }
   },
   "/order": {
+    "get": {
+      "secure": true,
+      "library": "Firebase",
+      "options": { "db_ref": "orders" },
+      "err_message": "Couldn't connect to database"
+    },
     "post": {
       "library": "Stripe",
       "options": {
         "inventory": { "db_ref": "inventory" },
         "order": { "db_ref": "orders" },
         "email": {
-          "db_ref": "purchase_order_email",
+          "db_ref": "meta/purchase_order_email",
           "email_template": "purchaseConfirmation"
         }
       },

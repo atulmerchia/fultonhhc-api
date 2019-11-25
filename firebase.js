@@ -11,5 +11,6 @@ module.exports = {
   multiGet: ({ db_ref }, keys) => Promise.resolve(FirebaseApp.database().ref(db_ref))
     .then(ref => Promise.all(keys.map(k => ref.child(k).once('value').then(snapshot => snapshot.val()))))
     .then(res => keys.reduce((acc, k, i) => Object.assign(acc, { [k]: res[i] }), {})),
-  post: async ({ db_ref }, key = uuid(), data) => (await FirebaseApp.database().ref(db_ref).child(key)).set(data).then(_ => ({ [key]: data }))
+  post: async ({ db_ref }, key = uuid(), data) => (await FirebaseApp.database().ref(db_ref).child(key)).set(data).then(_ => ({ [key]: data })),
+  authenticate: async token => token && FirebaseApp.auth().verifyIdToken(token).then(_ => true).catch(_ => false)
 }
