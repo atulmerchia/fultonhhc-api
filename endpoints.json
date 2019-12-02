@@ -1,14 +1,34 @@
 {
-  "/about": {
+  "/about/:id?": {
+    "delete": {
+      "library": "Firebase",
+      "options": { "db_ref": "org_info/partners" },
+      "err_message": "Couldn't delete item"
+    },
     "get": {
+      "public": true,
       "library": "Firebase",
       "options": { "db_ref": "org_info" },
       "err_message": "Error connecting to database"
+    },
+    "post": {
+      "library": "Firebase",
+      "options": { "db_ref": "org_info/partners" },
+      "err_message": "Couldn't connect to database"
+    },
+    "put": {
+      "library": "Firebase",
+      "options": { "db_ref": "org_info" },
+      "err_message": "Couldn't connect to database"
     }
   },
   "/contact": {
     "get": {
-      "secure": true,
+      "library": "Firebase",
+      "options": { "db_ref": "org_info/contact_info" },
+      "err_message": "Couldn't connect to database"
+    },
+    "put": {
       "library": "Firebase",
       "options": { "db_ref": "org_info/contact_info" },
       "err_message": "Couldn't connect to database"
@@ -16,6 +36,7 @@
   },
   "/events": {
     "get": {
+      "public": true,
       "library": "Calendar",
       "options": { "db_ref": "meta/calendar_id" },
       "err_message": "Couldn't get calendar data"
@@ -23,28 +44,66 @@
   },
   "/home": {
     "get": {
+      "public": true,
       "library": "Firebase",
       "options": { "db_ref": "home" },
       "err_message": "Error connecting to database"
+    },
+    "put": {
+      "library": "Firebase",
+      "options": { "db_ref": "home" },
+      "err_message": "Couldn't connect to database"
     }
   },
-  "/impact": {
+  "/image/:bucket": {
+    "post": {
+      "library": "Image",
+      "err_message": "Coudn't upload image"
+    }
+  },
+  "/impact/:id?": {
+    "delete": {
+      "library": "Firebase",
+      "options": { "db_ref": "impact" },
+      "err_message": "Couldn't delete item"
+    },
     "get": {
+      "public": true,
       "library": "Firebase",
       "options": { "db_ref": "impact" },
       "err_message": "Error connecting to database"
+    },
+    "post": {
+      "library": "Firebase",
+      "options": { "db_ref": "impact" },
+      "err_message": "Couldn't connect to database"
     }
   },
-  "/inventory": {
+  "/inventory/:id?": {
+    "delete": {
+      "library": "Firebase",
+      "options": { "db_ref": "inventory" },
+      "err_message": "Couldn't delete item"
+    },
     "get": {
+      "public": true,
       "library": "Firebase",
       "options": { "db_ref": "inventory" },
       "err_message": "Error connecting to database"
+    },
+    "post": {
+      "library": "Firebase",
+      "options": { "db_ref": "inventory" },
+      "err_message": "Couldn't connect to database"
     }
   },
   "/meta": {
     "get": {
-      "secure": true,
+      "library": "Firebase",
+      "options": { "db_ref": "meta" },
+      "err_message": "Couldn't connect to database"
+    },
+    "put": {
       "library": "Firebase",
       "options": { "db_ref": "meta" },
       "err_message": "Couldn't connect to database"
@@ -52,6 +111,7 @@
   },
   "/message": {
     "post": {
+      "public": true,
       "library": "Mailer",
       "options": {
         "db_ref": "org_info/contact_info/email",
@@ -60,21 +120,14 @@
       "err_message": "Couldn't send message"
     }
   },
-  "/social": {
+  "/order/:id?": {
     "get": {
-      "library": "Firebase",
-      "options": { "db_ref": "meta/social_media" },
-      "err_message": "Couldn't fetch social media information"
-    }
-  },
-  "/order": {
-    "get": {
-      "secure": true,
       "library": "Firebase",
       "options": { "db_ref": "orders" },
       "err_message": "Couldn't connect to database"
     },
     "post": {
+      "public": true,
       "library": "Stripe",
       "options": {
         "inventory": { "db_ref": "inventory" },
@@ -85,6 +138,19 @@
         }
       },
       "err_message": "Unable to generate transaction data. Please do not attempt to reorder, instead contact us directly."
+    },
+    "put": {
+      "library": "Firebase",
+      "options": { "db_ref": "orders" },
+      "err_message": "Could not mark order fulfilled"
+    }
+  },
+  "/social": {
+    "get": {
+      "public": true,
+      "library": "Firebase",
+      "options": { "db_ref": "meta/social_media" },
+      "err_message": "Couldn't fetch social media information"
     }
   }
 }

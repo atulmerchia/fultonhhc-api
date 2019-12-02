@@ -2,6 +2,9 @@ const Firebase = require('./firebase');
 const Mailer = require('./mailer');
 const Stripe = require('stripe')(process.env.STRIPE_API_KEY);
 
+const build_address_object = ({address_line1, address_line2, city, state, zip}) => Object.assign({ address_line1, city, state, zip }, address_line2 ? { address_line2 } : {})
+const build_address_string = obj => `${obj.address_line1}, ${obj.address_line2 ? obj.address_line2 + ", " : ""}${obj.city}, ${obj.state} ${obj.zip}`
+
 module.exports = {
   post: (options, { body }) => Firebase.multiGet(options.inventory, Object.keys(body.order))
     .then(inventory => Object.entries(body.order).reduce( (acc, [id, item]) => ({
@@ -23,19 +26,14 @@ module.exports = {
       currency: 'usd',
       source: body.token.id
     })
-    .then( ({ payment_method_details: { card } }) => Firebase.post(options.order, undefined, {
+    .then( ({ payment_method_details: { card } }) => Firebase.post(options.order, { body: {
       customer: {
         name: body.name,
         contact: {
           email: body.email,
           phone: body.phone
         },
-        shipping_address: Object.assign({
-          address_line1: body.shipping_address.address_line1,
-          city: body.shipping_address.city,
-          state: body.shipping_address.state,
-          zip: body.shipping_address.zip
-        }, body.shipping_address.address_line2 ? { address_line2: body.shipping_address.address_line2 } : {})
+        shipping_address: build_address_object(body.shipping_address)
       },
       order: order,
       confirmation: confirmation,
@@ -47,14 +45,9 @@ module.exports = {
         card: card.brand,
         exp_month: card.exp_month,
         exp_year: card.exp_year,
-        billing_address: Object.assign({
-          address_line1: body.billing_address.address_line1,
-          city: body.billing_address.city,
-          state: body.billing_address.state,
-          zip: body.billing_address.zip
-        }, body.billing_address.address_line2 ? { address_line2: body.billing_address.address_line2 } : {}),
+        billing_address: build_address_object(body.billing_address)
       }
-    }))
+    }}))
     .then(_ => Mailer.post(options.email, {
       body: {
         name: body.name,
@@ -62,8 +55,8 @@ module.exports = {
         subject: `Email confirmation - Invoice #${confirmation}`,
         phone: `${body.phone}`.replace(/(\d{3})(\d{3})(\d{4})/, "($1) $2-$3"),
         card: body.token.card.last4,
-        shipping_address: `${body.shipping_address.address_line1}, ${body.shipping_address.address_line2 ? body.shipping_address.address_line2 + ", " : ""}${body.shipping_address.city}, ${body.shipping_address.state} ${body.billing_address.zip}`,
-        billing_address: `${body.billing_address.address_line1}, ${body.billing_address.address_line2 ? body.billing_address.address_line2 + ", " : ""}${body.billing_address.city}, ${body.shipping_address.state} ${body.shipping_address.zip}`,
+        shipping_address: build_address_string(body.shipping_address),
+        billing_address: build_address_string(body.billing_address),
         confirmation: confirmation,
         total: `$${Number(total/100).toFixed(2)}`,
         body: email_content
